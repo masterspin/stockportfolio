@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>StockPortfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <link rel="icon" href="https://img.icons8.com/pastel-glyph/64/000000/stocks-growth.png"/>
+</head>
+
+<body>
+    <section class="hero is-small is-link">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    <img style="width:400px;align-items: center;" src="https://imgur.com/Ox812So.png">
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                {{form.name}}
+                            </div>
+                            <div class="control is-expanded">
+                                {{form.amount}}
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-danger">
+                                    Add Stock
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    {% for stock_attributes in stock_data %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span style="text-transform:uppercase;" class="title">{{ stock_attributes.name }}</span>
+                                        <br>
+                                        <span class="subtitle">Price/Share: ${{ stock_attributes.price }}</span>
+                                        <br>
+                                        <span class="subtitle">Amount: {{ stock_attributes.amount }} Shares</span>
+                                        <br>
+                                        <span class="subtitle">Total Value: ${{ stock_attributes.totalShare }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <a href="{% url 'delete_stock' stock_attributes.name %}">
+                                    <button class="delete"></button>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="content">
+                  <header class="card-header">
+                    <p class="card-header-title">
+                      Total Price: ${{totalPrice}}
+                    </p>
+                  </header>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
